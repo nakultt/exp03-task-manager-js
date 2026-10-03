@@ -29,6 +29,20 @@ A to-do / task manager web application written in plain JavaScript. Users can ad
 | Logic | Vanilla JavaScript (ES6+, DOM API) |
 | Storage | Web Storage API (localStorage) |
 
+## Architecture
+
+```mermaid
+flowchart LR
+    UI[index.html<br/>task form · priority · filter buttons] --> JS[js/app.js]
+    JS --> ST[(tasks array<br/>in memory)]
+    ST <-->|JSON.stringify / parse| LS[(localStorage)]
+    JS -->|add · toggle · delete| ST
+    ST --> RD[render<br/>filtered list: all / active / completed]
+    RD --> UI
+```
+
+`app.js` uses a simple **state → render** loop. Every action changes the `tasks` array, saves it to `localStorage`, and re-renders the list using the current filter. Tasks therefore survive page reloads without any backend.
+
 ## Folder Structure
 
 ```
